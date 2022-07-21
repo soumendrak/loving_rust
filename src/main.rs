@@ -1,18 +1,15 @@
-use actix_web::{get, web, App, HttpServer, Responder};
+use std::io;
 
-#[get("/hello/{name}")]
-async fn greet(name: web::Path<String>) -> impl Responder {
-    format!("Hello {name}!")
-}
+fn main() {
+    println!("Guess the number!");
 
-#[actix_web::main] // or #[tokio::main]
-async fn main() -> std::io::Result<()> {
-    HttpServer::new(|| {
-        App::new()
-            .route("/hello", web::get().to(|| async { "Hello World!" }))
-            .service(greet)
-    })
-    .bind(("127.0.0.1", 8080))?
-    .run()
-    .await
+    println!("Please input your guess.");
+
+    let mut guess = String::new();
+
+    io::stdin()
+        .read_line(&mut guess)
+        .expect("Failed to read line");
+
+    println!("You guessed: {}", guess);
 }
